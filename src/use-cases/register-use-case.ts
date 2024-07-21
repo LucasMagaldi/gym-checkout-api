@@ -2,8 +2,13 @@ import { hash } from 'bcryptjs'
 import { UserRegisterDTO } from '../DTO/User/UserRegisterDTO'
 import { prismaClient } from '../lib/prisma'
 
+export class RegisterUseCase {
 
-export async function registerUseCase({ name, email, password }: UserRegisterDTO) {
+    constructor(private userRepository: any) {
+
+    }
+
+    async execute({ name, email, password }: UserRegisterDTO) {
 
     const isUserRegister = await prismaClient.user.findUnique({
         where: {
@@ -15,8 +20,7 @@ export async function registerUseCase({ name, email, password }: UserRegisterDTO
     
     const password_hash = await hash(password, 6)
 
-    await prismaClient.user.create({
-        data: { name, email, password_hash }
-    })
+    await this.userRepository.create({ name, email, password_hash })
 
-}
+}}
+
