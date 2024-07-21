@@ -1,0 +1,10 @@
+services:
+  gym-checkout-db:
+    container_name: gym-checkout-db
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=gym-checkout
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=password
