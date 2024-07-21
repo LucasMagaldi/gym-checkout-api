@@ -10,11 +10,7 @@ export class RegisterUseCase {
 
     async execute({ name, email, password }: UserRegisterDTO) {
 
-    const isUserRegister = await prismaClient.user.findUnique({
-        where: {
-            email
-        }
-    })
+    const isUserRegister = await this.userRepository.findByEmail(email)
 
     if(isUserRegister) throw new Error('E-mail already exists.')
     
