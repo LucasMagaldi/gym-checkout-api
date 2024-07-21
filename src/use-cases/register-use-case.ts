@@ -1,7 +1,7 @@
 import { hash } from 'bcryptjs'
 import { UserRegisterDTO } from '../DTO/User/UserRegisterDTO'
-import { prismaClient } from '../lib/prisma'
 import { EmailAlreadyExist } from './errors/email-already-exist'
+import { User } from '@prisma/client'
 
 export class RegisterUseCase {
 
@@ -9,7 +9,7 @@ export class RegisterUseCase {
 
     }
 
-    async execute({ name, email, password }: UserRegisterDTO) {
+    async execute({ name, email, password }: UserRegisterDTO) : Promise<User> {
 
     const isUserRegister = await this.userRepository.findByEmail(email)
 
@@ -17,7 +17,7 @@ export class RegisterUseCase {
     
     const password_hash = await hash(password, 6)
 
-    await this.userRepository.create({ name, email, password_hash })
+    return await this.userRepository.create({ name, email, password_hash })
 
 }}
 
