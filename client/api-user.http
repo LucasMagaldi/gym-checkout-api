@@ -1,0 +1,15 @@
+@api=http://localhost:8080
+
+###
+GET {{api}}
+
+###
+# @name createUser
+POST {{api}}/user
+Content-Type: application/json
+
+{
+    "name": "lucas",
+    "email": "123@gmail.com",
+    "password": "123"
+}
