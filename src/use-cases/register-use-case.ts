@@ -1,6 +1,7 @@
 import { hash } from 'bcryptjs'
 import { UserRegisterDTO } from '../DTO/User/UserRegisterDTO'
 import { prismaClient } from '../lib/prisma'
+import { EmailAlreadyExist } from './errors/email-already-exist'
 
 export class RegisterUseCase {
 
@@ -12,7 +13,7 @@ export class RegisterUseCase {
 
     const isUserRegister = await this.userRepository.findByEmail(email)
 
-    if(isUserRegister) throw new Error('E-mail already exists.')
+    if(isUserRegister) throw new EmailAlreadyExist()
     
     const password_hash = await hash(password, 6)
 
