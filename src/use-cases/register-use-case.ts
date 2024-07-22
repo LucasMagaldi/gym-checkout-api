@@ -2,10 +2,11 @@ import { hash } from 'bcryptjs'
 import { UserRegisterDTO } from '../DTO/User/UserRegisterDTO'
 import { EmailAlreadyExist } from './errors/email-already-exist'
 import { User } from '@prisma/client'
+import { UserRepository } from '../repositories/user-repository'
 
 export class RegisterUseCase {
 
-    constructor(private userRepository: any) {
+    constructor(private userRepository: UserRepository) {
 
     }
 
