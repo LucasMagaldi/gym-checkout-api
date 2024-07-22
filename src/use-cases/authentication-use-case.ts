@@ -9,7 +9,7 @@ export class AuthenticationUseCase {
 
     async execute({ email, password } : UserAuthenticationDTO) : Promise<string> {
         const user = await this.userRepository.findByEmail(email)
-        
+
         if(!user) throw new InvalidCredentials()
 
         const doesPasswordMatches = await compare(password, user.password_hash)
