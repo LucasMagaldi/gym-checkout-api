@@ -1,5 +1,4 @@
-import { UserRegisterDTO } from '../../DTO/User/UserRegisterDTO'
-import { Prisma, PrismaClient, User } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { prismaClient } from '../../lib/prisma'
 import { UserRepository } from '../user-repository'
 

@@ -16,7 +16,6 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
         const authenticationUseCase = new AuthenticationUseCase(userRepository)
 
         const token = await authenticationUseCase.execute({email, password})
-        console.log(token)
         reply.status(201).send({ access_token: token})
     } catch (error) {
         if(error instanceof InvalidCredentials) reply.status(400).send({ message: "Invalid Credentials"})

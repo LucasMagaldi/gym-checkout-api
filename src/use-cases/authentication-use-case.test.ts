@@ -1,28 +1,29 @@
 import { InMemoryUserRepository } from '../repositories/in-memory/in-memory-user-repository'
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, beforeEach } from "vitest";
 import { AuthenticationUseCase } from './authentication-use-case';
 import { InvalidCredentials } from './errors/invalid-credentials'
 import { hash } from 'bcryptjs';
-import { any } from 'zod';
+
+let userRepository: InMemoryUserRepository
+let authenticationUseCase: AuthenticationUseCase
+
 
 describe('Authentication use case', () => {
     const password = 'randon@1223'
     const email = 'lucas.1234@gmail.com'
 
-    it('Should not authenticate user when credentials not founded', async () => {
-        const userRepository = new InMemoryUserRepository()
-        const authenticationUseCase = new AuthenticationUseCase(userRepository)
+    beforeEach(() => {
+        userRepository = new InMemoryUserRepository()
+        authenticationUseCase = new AuthenticationUseCase(userRepository)
+    })
 
+    it('Should not authenticate user when credentials not founded', async () => {
         expect(async() => {
             await authenticationUseCase.execute({email: "lucas.s.magaldi@hotmail.com", password: "123454"})
         }).rejects.toBeInstanceOf(InvalidCredentials)
     })
 
     it("Should return invalid credentials when password didnt match", async () => {
-        const userRepository = new InMemoryUserRepository()
-        const authenticationUseCase = new AuthenticationUseCase(userRepository)
-
-
         await userRepository.create({
             name: 'Lucas',
             email,
@@ -35,8 +36,6 @@ describe('Authentication use case', () => {
     })
 
     it('Should be authenticated', async () => {
-        const userRepository = new InMemoryUserRepository()
-        const authenticationUseCase = new AuthenticationUseCase(userRepository)
         await userRepository.create({
             name: 'Lucas',
             email,

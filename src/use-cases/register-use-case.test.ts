@@ -1,12 +1,18 @@
 import { InMemoryUserRepository } from './../repositories/in-memory/in-memory-user-repository'
-import { it, expect, describe } from 'vitest'
+import { it, expect, describe, beforeEach } from 'vitest'
 import { RegisterUseCase } from './register-use-case'
 import { EmailAlreadyExist } from '../use-cases/errors/email-already-exist'
 
 describe('Register use case', () => {
+    let userRepository: InMemoryUserRepository
+    let registerUseCase: RegisterUseCase
+
+    beforeEach(() => {
+        userRepository = new InMemoryUserRepository()
+        registerUseCase = new RegisterUseCase(userRepository)
+    })
+
     it('Should to register', async () => {
-        const userRepository = new InMemoryUserRepository()
-        const registerUseCase = new RegisterUseCase(userRepository)
 
         const user = await registerUseCase.execute({
             name: 'Lucas',
@@ -18,8 +24,6 @@ describe('Register use case', () => {
     })
 
     it('Should not to register twice', async () => {
-        const userRepository = new InMemoryUserRepository()
-        const registerUseCase = new RegisterUseCase(userRepository)
 
         const user = {
             name: 'Lucas',
@@ -28,7 +32,7 @@ describe('Register use case', () => {
         }
 
         await registerUseCase.execute(user)
-
+        
         expect(async () => {
             const userIsRegisterd = await registerUseCase.execute({...user, email: 'lucas.12345@gmail.com'})
             console.log(userIsRegisterd)
