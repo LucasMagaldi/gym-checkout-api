@@ -34,7 +34,7 @@ describe('Register use case', () => {
         await registerUseCase.execute(user)
         
         expect(async () => {
-            const userIsRegisterd = await registerUseCase.execute({...user, email: 'lucas.12345@gmail.com'})
+            const userIsRegisterd = await registerUseCase.execute({...user, email: 'lucas.1234@gmail.com'})
             console.log(userIsRegisterd)
         }).rejects.toBeInstanceOf(EmailAlreadyExist)
     })
